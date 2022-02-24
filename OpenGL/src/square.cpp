@@ -12,6 +12,31 @@
 #include <string> 
 #include <sstream>
 
+// Pretty cool stuff
+// Assertion
+#define ASSERT(x) if (!(x)) __debugbreak();
+
+#define GLCall(x) GLClearError();\
+	x;\
+	ASSERT(GLLogCall(#x, __FILE__, __LINE__))
+
+
+static void GLClearError()
+{
+    while (glGetError() != GL_NO_ERROR);
+}
+
+static bool GLLogCall(const char* function, const char* file, int line)
+{
+	while (GLenum error = glGetError())
+	{
+        std::cout << "[OpenGL Error] (" << error << ")" << function << 
+            " " << file << " " << line << std::endl;
+        return false;
+	}
+    return true;
+}
+
 struct ShaderProgramSource
 {
     std::string VertexSource;
@@ -124,7 +149,7 @@ int main(void)
     else
         std::cout << "GLEW is OK!" << std::endl;
 
-    std::cout << "Current OpenGL version is: " << glewGetString(GLEW_VERSION);
+    std::cout << "Current OpenGL version is: " << glewGetString(GLEW_VERSION) << std::endl;
 
 
     /* Positions of the vertices of the square to push to the buffer */
@@ -142,17 +167,17 @@ int main(void)
     };
 
     unsigned int buffer;                        // Buffer ID
-    glGenBuffers(1, &buffer);                   // Create buffer
-    glBindBuffer(GL_ARRAY_BUFFER, buffer);      // Selecting type of buffer and buffer
-    glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW);
+    GLCall(glGenBuffers(1, &buffer));                   // Create buffer
+    GLCall(glBindBuffer(GL_ARRAY_BUFFER, buffer));      // Selecting type of buffer and buffer
+    GLCall(glBufferData(GL_ARRAY_BUFFER, 6 * 2 * sizeof(float), positions, GL_STATIC_DRAW));
 
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0);
+    GLCall(glEnableVertexAttribArray(0));
+    GLCall(glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, 0));
 
     unsigned int ibo;                                   // Buffer ID
-    glGenBuffers(1, &ibo);                              // Create buffer
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo);         // Selecting type of buffer and buffer
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW);
+    GLCall(glGenBuffers(1, &ibo));                              // Create buffer
+    GLCall(glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ibo));         // Selecting type of buffer and buffer
+    GLCall(glBufferData(GL_ELEMENT_ARRAY_BUFFER, 6 * sizeof(unsigned int), indices, GL_STATIC_DRAW));
 
     /* The shader code goes here*/
     ShaderProgramSource source = ParseShader("res/shaders/Basic.shader");
@@ -161,8 +186,7 @@ int main(void)
     unsigned int shader = CreateShader(source.VertexSource, source.FragmentSource);
 
     // Tell OpenGL specification to use that particular shader
-    glUseProgram(shader);
-
+    GLCall(glUseProgram(shader));
 
     /* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
@@ -170,7 +194,10 @@ int main(void)
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);           // Draw call
+        // Cool stuff happens here
+        GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));           // Draw call
+
+        //TODO print the error message to the corresponding error code
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
@@ -180,7 +207,7 @@ int main(void)
     }
 
     // Delete the shader program after use
-    glDeleteProgram(shader);
+    GLCall(glDeleteProgram(shader));
 
     glfwTerminate();
     return 0;
