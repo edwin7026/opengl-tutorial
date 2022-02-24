@@ -19,12 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\holy_triangle.cpp">
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">$(SolutionDir)$(ProjectName)\src\include\;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">$(SolutionDir)$(ProjectName)\src\include\;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(SolutionDir)$(ProjectName)\src\include\;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include</AdditionalIncludeDirectories>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">$(SolutionDir)$(ProjectName)\src\include\;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLFW\include;$(SolutionDir)Dependencies\GLEW\include</AdditionalIncludeDirectories>
-    </ClCompile>
+    <ClCompile Include="src\square.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

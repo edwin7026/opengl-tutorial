@@ -15,7 +15,7 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\holy_triangle.cpp">
+    <ClCompile Include="src\square.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
