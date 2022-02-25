@@ -143,6 +143,10 @@ int main(void)
     /* Make the window's context current */
     glfwMakeContextCurrent(window);
 
+    // Control Frame rate
+    glfwSwapInterval(1);
+
+
     /* Initialize GLEW */
     if (glewInit() != GLEW_OK)
         std::cout << "GLEW is not OK!" << std::endl;
@@ -188,16 +192,29 @@ int main(void)
     // Tell OpenGL specification to use that particular shader
     GLCall(glUseProgram(shader));
 
-    /* Loop until the user closes the window */
+    // Use of uniforms
+    GLCall(int location = glGetUniformLocation(shader, "u_Color"));
+    ASSERT(location != -1);
+    GLCall(glUniform4f(location, 0.2f, 0.3f, 0.8f, 1.0f));
+
+    float r = 0.0f;
+    float increment = 0.05f;
+
+	/* Loop until the user closes the window */
     while (!glfwWindowShouldClose(window))
     {
         /* Render here */
         glClear(GL_COLOR_BUFFER_BIT);
 
-        // Cool stuff happens here
+        GLCall(glUniform4f(location, r, 0.3f, 0.8f, 1.0f))
         GLCall(glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr));           // Draw call
 
-        //TODO print the error message to the corresponding error code
+        if (r > 1.0f)
+            increment = -0.05f;
+        else if (r < 0.0f)
+            increment = 0.05f;
+
+        r = r + increment;
 
         /* Swap front and back buffers */
         glfwSwapBuffers(window);
