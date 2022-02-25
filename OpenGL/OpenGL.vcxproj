@@ -19,7 +19,15 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\include\Renderer.cpp" />
+    <ClCompile Include="src\include\IndexBuffer.cpp" />
+    <ClCompile Include="src\include\VertexBuffer.cpp" />
     <ClCompile Include="src\square.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\include\Renderer.h" />
+    <ClInclude Include="src\include\IndexBuffer.h" />
+    <ClInclude Include="src\include\VertexBuffer.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
